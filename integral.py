@@ -3,7 +3,7 @@ import numpy as np
 def met_p_med(f, a, b, N):
     h = (b-a)/N
     area_tot = 0
-    for i in range(N):
+    for i in range(1, N):
         area = f(a + h/2 * (2*i - 1))
         area_tot += area
     integral = h * area_tot
@@ -19,13 +19,13 @@ def met_trapezio(f, a, b, N):
     return integral
 
 def f(x):
-    y = np.sin(np.pi*x)*np.cos(2*np.pi*x)
+    y = (np.exp(-(np.tan(x)**2)) * np.tan(x)**2)   /   2
     return y
 
 if __name__ == '__main__':
-    a = 0
-    b = 1
-    N = 100000
+    a = -np.pi / 2
+    b = np.pi / 2
+    N = 1000000
 
     integral_p_med = met_p_med(f, a, b, N)
     integral_met_trapezio = met_trapezio(f, a, b, N)

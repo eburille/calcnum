@@ -22,10 +22,23 @@ def euler_melhorado(f, t0, y0, h, N):
     y[0] = y0
     t[0] = t0
     for i in range(N):
-        t_meio = t[i] + h/2
-        y_meio = y[i]+ h/2 * f(y[i], t[i])
+        k1 = f(y[i], t[i])
+        k2 = f(y[i]+h/2*k1, t[1]+h/2)
         
-        y[i+1] = y[i] + h*f(y_meio, t_meio)
+        y[i+1] = y[i] + h*k2
+        t[i+1] = t[i] + h
+    return [t, y]
+
+def predica_correcao(f, t0, y0, h, N):
+    y = np.zeros(N+1)
+    t = np.zeros(N+1)
+    y[0] = y0
+    t[0] = t0
+    for i in range(N):
+        k1 = f(y[i], t[i])
+        k2 = f(y[i]+h*k1, t[1]+h)
+        
+        y[i+1] = y[i] + h*(k1+k2)/2
         t[i+1] = t[i] + h
     return [t, y]
 
@@ -34,7 +47,7 @@ if __name__ == '__main__':
     t0 = 2
     y0 = 3
     h = 0.01
-    N = 50
+    N = 500
 
     [T, Y1] = euler(f, t0, y0, h, N)
     [T, Y2] = euler_melhorado(f, t0, y0, h, N)

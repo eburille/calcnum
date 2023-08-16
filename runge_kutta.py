@@ -42,6 +42,20 @@ def predica_correcao(f, t0, y0, h, N):
         t[i+1] = t[i] + h
     return [t, y]
 
+def adams4(f, t0, y0, h, N):
+    y = np.zeros(N+1)
+    t = np.zeros(N+1)
+    y[0] = y0
+    t[0] = t0
+    # t[1]  t[2]   y[1]  y[2]
+    for i in range(N):
+        k1 = f(i[i], t[i])
+        k2 = f(i[i-1], t[i-1])
+        k3 = f(i[i-2], t[i-2])
+        k4 = f(i[i-3], t[i-3])
+        y[i+1] = y[i]+h*(55*k1-59*k2+37*k3-9*k4)/24
+        t[i+1] = t[i]+h
+    return [t, y]
 
 if __name__ == '__main__':
     t0 = 2

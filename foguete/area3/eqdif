@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Aug 14 16:05:32 2023
+
+@author: estudante
+"""
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(y,t):
+    f=(t-y)/t
+    return f
+
+def euler(f,t0,y0,h,N):
+    y=np.zeros(N+1)
+    t=np.zeros(N+1)
+    y[0]=y0
+    t[0]=t0
+    for i in range(N):
+        y[i+1]=y[i]+h*f(y[i],t[i])
+        t[i+1]=t[i]+h
+    return [t,y]
+
+def euler_melhorado(f,t0,y0,h,N):
+    y=np.zeros(N+1)
+    t=np.zeros(N+1)
+    y[0]=y0
+    t[0]=t0
+    for i in range(N):
+        y_meio=y[i]+h/2*f(y[i],t[i])
+        t_meio=t[i]+h/2
+        y[i+1]=y[i]+h*f(y_meio,t_meio)
+        t[i+1]=t[i]+h
+    return [t,y]
+
+
+t0=2
+y0=3
+h=0.1
+N=50
+[T,Y1]=euler(f,t0,y0,h,N)
+[T,Y2]=euler_melhorado(f,t0,y0,h,N)
+#ta=np.linspace(0,h*N,1000)
+#ya=np.exp(ta)/(1+np.exp(ta))
+#plt.plot(ta,ya)
+plt.plot(T,Y1,'o')
+plt.plot(T,Y2,'o')
+plt.legend(['analitica','euler','euler melhorado'])  
+    
+    
